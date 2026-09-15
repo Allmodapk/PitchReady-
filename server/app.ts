@@ -11,7 +11,7 @@ import {
   getVettedCandidates,
   getPlacements,
   getStorageStatus,
-} from './storage';
+} from './storage.js';
 
 dotenv.config();
 
@@ -227,7 +227,7 @@ Output only valid JSON.`;
           rampUpTimelineDays: 14,
           suggestedInterviewQuestions: [
             {
-              question: 'In your first 30 seconds of a cold call, how do you earn the prospect’s permission to speak?',
+              question: 'In your first 30 seconds of a cold call, how do you earn the prospect's permission to speak?',
               goodAnswerIndicator: 'States relevant industry context or common bottleneck rather than launching straight into a pitch.',
             },
             {
@@ -272,7 +272,7 @@ Output only valid JSON.`;
         rampUpTimelineDays: 14,
         suggestedInterviewQuestions: [
           {
-            question: 'In your first 30 seconds of a cold call, how do you earn the prospect’s permission to speak?',
+            question: 'In your first 30 seconds of a cold call, how do you earn the prospect's permission to speak?',
             goodAnswerIndicator: 'States relevant industry context or common bottleneck rather than launching straight into a pitch.',
           },
           {
