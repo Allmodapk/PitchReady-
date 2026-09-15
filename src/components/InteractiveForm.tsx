@@ -48,6 +48,7 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
   const [isSuccess, setIsSuccess] = useState(false);
   const [submittedType, setSubmittedType] = useState<AppMode>(mode);
   const [savedOffline, setSavedOffline] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Auto-save drafts
@@ -59,11 +60,12 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
     localStorage.setItem('pitchready_draft_cand', JSON.stringify(candForm));
   }, [candForm]);
 
-  // Sync offline queue when coming back online
+  // Sync offline queue when coming back online, and once on initial load if online
   useEffect(() => {
     if (isOnline) {
       syncOfflineQueue().catch(console.error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,17 +98,23 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
       });
 
       // Also persist to local cache for resilient history
+      const trulyOffline = !isOnline;
+      const failedButOnline = isOnline && !res.success;
+
       const existing = JSON.parse(localStorage.getItem('pitchready_submissions') || '[]');
       existing.unshift({
         id: submissionId,
         type: mode,
         timestamp: new Date().toISOString(),
-        isOffline: !isOnline || !res.success,
+        // Only the real "device is offline" case counts as an offline queue item
+        // that we expect syncOfflineQueue to pick up on the next online transition.
+        isOffline: trulyOffline || failedButOnline,
         data: dataPayload,
       });
       localStorage.setItem('pitchready_submissions', JSON.stringify(existing));
 
-      setSavedOffline(!isOnline || !res.success);
+      setSavedOffline(trulyOffline);
+      setServerError(failedButOnline);
       setSubmittedType(mode);
       setIsSuccess(true);
       setIsSubmitting(false);
@@ -119,7 +127,10 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
       }
     } catch (err: any) {
       console.warn('Submission fallback triggered:', err);
-      setSavedOffline(true);
+      // An exception here (vs. a handled non-2xx response) means the request
+      // itself couldn't be made — treat that as offline only if we actually are.
+      setSavedOffline(!isOnline);
+      setServerError(isOnline);
       setSubmittedType(mode);
       setIsSuccess(true);
       setIsSubmitting(false);
@@ -129,6 +140,7 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
   const handleReset = () => {
     setIsSuccess(false);
     setSavedOffline(false);
+    setServerError(false);
     setErrorMessage(null);
     if (mode === 'employer') {
       setEmpForm(initialEmployer);
@@ -191,6 +203,8 @@ export const InteractiveForm: React.FC<InteractiveFormProps> = ({ mode, onModeCh
           <p className="mt-2.5 text-sm text-[#68736e] max-w-md mx-auto leading-relaxed">
             {savedOffline
               ? 'You are currently offline. Your request has been safely saved to your device storage and will automatically sync to our server once connection returns.'
+              : serverError
+              ? "We couldn't reach our server just now, so your request has been saved on this device. We'll keep retrying automatically — you can also try again shortly."
               : submittedType === 'employer'
               ? 'Your brief is recorded in our verified backend! You can now explore vetted sales profiles in the Employer Portal, calibrate competencies with AI, or schedule candidate interviews.'
               : 'Your application is registered in our candidate pipeline! Explore the practical Sales Preparation & Objection battlecards in the Candidate Hub.'}
