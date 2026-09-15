@@ -1,0 +1,8 @@
+{
+  "name": "PitchReady",
+  "description": "Recruit, train, assess and place sales talent with a practical replacement guarantee. Mobile-first Progressive Web App.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
