@@ -20,14 +20,8 @@ import {
   Award,
   CheckCircle,
   ArrowRight,
-  TrendingUp,
   Sparkles,
-  Users2,
-  Briefcase,
   Check,
-  Building2,
-  UserCheck,
-  Zap,
 } from 'lucide-react';
 
 export default function App() {
@@ -118,7 +112,7 @@ export default function App() {
                     not work out.
                   </p>
 
-                  {/* CTAs */}
+                  {/* CTAs — trimmed to one primary + one secondary action */}
                   <div className="mt-7 flex flex-wrap items-center gap-3">
                     <button
                       onClick={() => handleTabChange('employer-portal')}
@@ -137,13 +131,6 @@ export default function App() {
                       className="rounded-full border border-[#173d34] text-[#173d34] hover:bg-[#173d34] hover:text-white px-5 py-3 text-xs sm:text-sm font-semibold transition active:scale-95 bg-transparent cursor-pointer"
                     >
                       Post Hiring Brief
-                    </button>
-
-                    <button
-                      onClick={() => handleTabChange('candidate-portal')}
-                      className="rounded-full border border-[#d9d5c9] text-[#68736e] hover:text-[#173d34] hover:bg-[#eee9dc] px-4 py-3 text-xs sm:text-sm font-semibold transition active:scale-95 bg-transparent cursor-pointer"
-                    >
-                      Candidate Hub
                     </button>
 
                     <div className="hidden sm:inline-block">
@@ -244,13 +231,13 @@ export default function App() {
                     Resumes show history. They don’t show if someone can sell.
                   </h2>
                   <p className="mt-3 text-xs sm:text-sm text-[#68736e] leading-relaxed">
-                    Most sales hiring fails not on paper, but on the telephone and across the demo table. Here is how PitchReady fixes the breakdown.
+                    Most sales hiring fails not on paper, but on the phone and across the demo table. Here is how PitchReady fixes the breakdown.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {/* Left: Traditional Recruitment */}
-                  <div className="rounded-3xl border border-[#d9d5c9] bg-[#f7f4ec] p-6 sm:p-8 space-y-4">
+                  <div className="rounded-2xl border border-[#d9d5c9] bg-[#f7f4ec] p-6 sm:p-8 space-y-4">
                     <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-rose-800 bg-rose-100 px-3 py-1 rounded-full">
                       Traditional Agency
                     </span>
@@ -278,7 +265,7 @@ export default function App() {
                   </div>
 
                   {/* Right: PitchReady */}
-                  <div className="rounded-3xl border-2 border-[#173d34] bg-white p-6 sm:p-8 space-y-4 shadow-sm relative">
+                  <div className="rounded-2xl border-2 border-[#173d34] bg-white p-6 sm:p-8 space-y-4 shadow-sm relative">
                     <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-emerald-900 bg-emerald-100 px-3 py-1 rounded-full">
                       PitchReady Model
                     </span>
