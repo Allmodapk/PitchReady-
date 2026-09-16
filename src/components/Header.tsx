@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { PWAInstallButton } from './PWAInstallButton';
 import { AppMode, AppTab } from '../types';
-import { Menu, X, WifiOff, ShieldCheck, Briefcase, Sparkles, Award } from 'lucide-react';
+import { Menu, X, WifiOff } from 'lucide-react';
 import { useOnlineStatus } from '../hooks/useOnlineStatus';
 
 interface HeaderProps {
@@ -93,9 +92,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <WifiOff className="w-3 h-3" /> Offline
               </span>
             )}
-
-            {/* PWA Install Button */}
-            <PWAInstallButton variant="compact" />
 
             <button
               onClick={() => {
