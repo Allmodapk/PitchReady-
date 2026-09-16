@@ -2,165 +2,19 @@ import fs from 'fs';
 import path from 'path';
 
 // ==========================================
-// DEMO / SEED DATA
-// Clearly-labeled realistic showcase records for South India sales talent market.
-// Used as initial state for demonstrations and seed cache.
+// SEED DATA
+// Clean, empty starting state — no demo/placeholder records.
+// Real data is created through the app (submissions, interviews)
+// or added by you via the admin panel (vetted candidates, placements).
 // ==========================================
 export const DEMO_SEED_DATA = {
-  submissions: [
-    {
-      id: 'sub_demo_1',
-      type: 'employer',
-      timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
-      data: {
-        companyName: 'Kochi Retail Logistics Pvt Ltd (Demo)',
-        contactPerson: 'Suresh Nambiar (Demo Lead)',
-        empPhone: '+91 98470 11223',
-        empEmail: 'suresh.demo@kochilogistics.in',
-        empCity: 'Kochi',
-        roleNeeded: 'BDE',
-        openings: '3',
-        hiringTimeline: 'Within 2 weeks',
-      },
-      status: 'Shortlisting',
-    },
-  ],
-  vettedCandidates: [
-    {
-      id: 'cand_101',
-      name: 'Rahul Nair (Demo Profile)',
-      role: 'BDE (Business Development Executive)',
-      experience: '1–2 years',
-      city: 'Kochi',
-      overallScore: 94,
-      assessmentScores: {
-        coldOutreach: 92,
-        objectionHandling: 95,
-        clarityAndDiction: 96,
-        coachability: 93,
-      },
-      skills: ['B2B SaaS', 'Cold Calling', 'Objection Handling', 'HubSpot CRM'],
-      languages: ['English', 'Malayalam', 'Hindi'],
-      availability: 'Ready in 7 days',
-      expectedCtc: '₹3.8L – ₹4.2L',
-      audioPitchUrl: '/sample-pitch-1.mp3',
-      audioPitchDuration: '0:45',
-      evaluatorNotes: 'Exceptional tonality and immediate pivot when faced with "Send me an email". Demonstrated structured 3-part pitch within 35 seconds.',
-      status: 'Available',
-    },
-    {
-      id: 'cand_102',
-      name: 'Ananya Sharma (Demo Profile)',
-      role: 'BDM / Senior Sales Representative',
-      experience: '3+ years',
-      city: 'Bengaluru / Kochi',
-      overallScore: 96,
-      assessmentScores: {
-        coldOutreach: 94,
-        objectionHandling: 98,
-        clarityAndDiction: 97,
-        coachability: 95,
-      },
-      skills: ['Enterprise Sales', 'Contract Negotiation', 'Lead Qualification', 'Salesforce'],
-      languages: ['English', 'Hindi', 'Tamil'],
-      availability: 'Immediately',
-      expectedCtc: '₹6.5L – ₹7.5L',
-      audioPitchUrl: '/sample-pitch-2.mp3',
-      audioPitchDuration: '1:10',
-      evaluatorNotes: 'High-caliber enterprise closer with strong consultative discovery. Handled budget objection with value-anchoring technique smoothly.',
-      status: 'Available',
-    },
-    {
-      id: 'cand_103',
-      name: 'Kevin Joseph (Demo Profile)',
-      role: 'Junior / Entry-level sales',
-      experience: 'Fresher',
-      city: 'Trivandrum',
-      overallScore: 89,
-      assessmentScores: {
-        coldOutreach: 90,
-        objectionHandling: 87,
-        clarityAndDiction: 91,
-        coachability: 98,
-      },
-      skills: ['Inside Sales', 'High Energy', 'Prospecting', 'LinkedIn Outreach'],
-      languages: ['English', 'Malayalam'],
-      availability: 'Immediately',
-      expectedCtc: '₹2.8L – ₹3.2L',
-      audioPitchUrl: '/sample-pitch-3.mp3',
-      audioPitchDuration: '0:40',
-      evaluatorNotes: 'Hungry fresher with natural rapport-building. Completed 40 simulated mock calls in training with rapid retention of feedback.',
-      status: 'Available',
-    },
-    {
-      id: 'cand_104',
-      name: 'Sneha Menon (Demo Profile)',
-      role: 'BDE (Business Development Executive)',
-      experience: '1 year',
-      city: 'Kozhikode',
-      overallScore: 91,
-      assessmentScores: {
-        coldOutreach: 89,
-        objectionHandling: 93,
-        clarityAndDiction: 93,
-        coachability: 92,
-      },
-      skills: ['Field Sales', 'Client Demos', 'Pipeline Management'],
-      languages: ['English', 'Malayalam', 'Tamil'],
-      availability: 'Ready in 14 days',
-      expectedCtc: '₹3.4L – ₹3.8L',
-      audioPitchUrl: '/sample-pitch-4.mp3',
-      audioPitchDuration: '0:50',
-      evaluatorNotes: 'Disciplined cold caller. Well versed in handling gatekeepers and setting up qualified Discovery calls.',
-      status: 'Available',
-    },
-  ],
-  placements: [
-    {
-      id: 'pl_201',
-      company: 'Apex Supply Solutions (Demo)',
-      candidateName: 'Arun K.',
-      role: 'BDE',
-      joinedDate: new Date(Date.now() - 86400000 * 19).toISOString().split('T')[0],
-      guaranteeDaysTotal: 45,
-      daysElapsed: 19,
-      daysRemaining: 26,
-      replacementsUsed: 0,
-      maxReplacements: 2,
-      status: 'Protected',
-      feePaid: '₹10,000',
-    },
-    {
-      id: 'pl_202',
-      company: 'CloudScale Technologies (Demo)',
-      candidateName: 'Meera R.',
-      role: 'BDM',
-      joinedDate: new Date(Date.now() - 86400000 * 33).toISOString().split('T')[0],
-      guaranteeDaysTotal: 45,
-      daysElapsed: 33,
-      daysRemaining: 12,
-      replacementsUsed: 0,
-      maxReplacements: 2,
-      status: 'Protected',
-      feePaid: '₹12,000',
-    },
-  ],
-  scheduledInterviews: [
-    {
-      id: 'int_301',
-      candidateId: 'cand_101',
-      candidateName: 'Rahul Nair',
-      companyName: 'Kochi Retail Logistics Pvt Ltd (Demo)',
-      date: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0],
-      time: '11:00 AM IST',
-      format: 'Google Meet / Video',
-      status: 'Confirmed',
-      created: new Date().toISOString(),
-    },
-  ],
+  submissions: [] as any[],
+  vettedCandidates: [] as any[],
+  placements: [] as any[],
+  scheduledInterviews: [] as any[],
 };
 
-// In-memory active store initialized with demo seed data
+// In-memory active store initialized with clean seed data
 let memoryStore = JSON.parse(JSON.stringify(DEMO_SEED_DATA));
 
 // Environment detection
